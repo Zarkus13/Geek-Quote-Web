@@ -9,7 +9,9 @@ import com.supinfo.geekquote.dao.QuoteDao;
 import com.supinfo.geekquote.models.Quote;
 import com.supinfo.geekquote.persistence.JpaDaoUtils;
 import java.util.List;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 
 /**
  *
@@ -28,11 +30,28 @@ public class JpaQuoteDao extends JpaDaoUtils implements QuoteDao {
 
     @Override
     public Long add(Quote quote) {
-        return withTransaction(em -> {
-            em.persist(quote); 
+        
+        final EntityManager em = emf.createEntityManager();
+        final EntityTransaction t = em.getTransaction();
+        
+        Long result = null;
+        
+        try {
+            t.begin();
             
-            return quote.getId();
-        });
+            em.persist(quote);
+            result = quote.getId();
+            
+            t.commit();
+        }
+        finally {
+            if(t.isActive())
+                t.rollback();
+            
+            em.close();
+        }
+        
+        return result;
     }
     
 }
