@@ -24,11 +24,11 @@ public class PersistenceManager {
             Map<String, Object> config = new HashMap<>();
             
             for(String k : envs.keySet()) {
-                if(k.equalsIgnoreCase("GEEKQUOTE_DB_URL"))
-                    config.put("javax.persistence.jdbc.url", envs.get(k));
-                else if(k.equalsIgnoreCase("GEEKQUOTE_DB_USER"))
+                if(k.equalsIgnoreCase("MYSQL_ADDON_HOST"))
+                    config.put("javax.persistence.jdbc.url", envs.get(k) + "/" + envs.get("MYSQL_ADDON_DB"));
+                else if(k.equalsIgnoreCase("MYSQL_ADDON_USER"))
                     config.put("javax.persistence.jdbc.user", envs.get(k));
-                else if(k.equalsIgnoreCase("GEEKQUOTE_DB_PASSWORD"))
+                else if(k.equalsIgnoreCase("MYSQL_ADDON_PASSWORD"))
                     config.put("javax.persistence.jdbc.password", envs.get(k));
             }
             
