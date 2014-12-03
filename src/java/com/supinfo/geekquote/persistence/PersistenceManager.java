@@ -7,6 +7,7 @@ package com.supinfo.geekquote.persistence;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
@@ -20,17 +21,24 @@ public class PersistenceManager {
     
     public static EntityManagerFactory getEntityManagerFactory() {
         if(emf == null) {
-            Map<String, String> envs = System.getenv();
+            Properties envs = System.getProperties();
             Map<String, Object> config = new HashMap<>();
             
-            for(String k : envs.keySet()) {
-                if(k.equalsIgnoreCase("MYSQL_ADDON_HOST"))
-                    config.put("javax.persistence.jdbc.url", envs.get(k) + "/" + envs.get("MYSQL_ADDON_DB"));
-                else if(k.equalsIgnoreCase("MYSQL_ADDON_USER"))
-                    config.put("javax.persistence.jdbc.user", envs.get(k));
-                else if(k.equalsIgnoreCase("MYSQL_ADDON_PASSWORD"))
-                    config.put("javax.persistence.jdbc.password", envs.get(k));
-            }
+            config.put("javax.persistence.jdbc.url", 
+                    envs.getProperty("MYSQL_ADDON_HOST", "jdbc:mysql://localhost:3306") 
+                        + "/" + envs.getProperty("MYSQL_ADDON_DB", "geekquote"));
+            
+            config.put("javax.persistence.jdbc.user", envs.getProperty("MYSQL_ADDON_USER", "java"));
+            config.put("javax.persistence.jdbc.password", envs.getProperty("MYSQL_ADDON_PASSWORD", "java"));
+            
+//            for(String k : envs.keySet()) {
+//                if(k.equalsIgnoreCase("MYSQL_ADDON_HOST"))
+//                    config.put("javax.persistence.jdbc.url", envs.get(k) + "/" + envs.get("MYSQL_ADDON_DB"));
+//                else if(k.equalsIgnoreCase("MYSQL_ADDON_USER"))
+//                    config.put("javax.persistence.jdbc.user", envs.get(k));
+//                else if(k.equalsIgnoreCase("MYSQL_ADDON_PASSWORD"))
+//                    config.put("javax.persistence.jdbc.password", envs.get(k));
+//            }
             
             emf = Persistence.createEntityManagerFactory("GeekQuotePU", config);
         }
