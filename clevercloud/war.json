@@ -1,0 +1,11 @@
+{
+	"deploy": {
+		"container": "TOMCAT8",
+		"war": [
+			{
+				"file": "dist/GeekQuote-Web.war",
+				"context": "/"
+			}
+		]
+	}
+}

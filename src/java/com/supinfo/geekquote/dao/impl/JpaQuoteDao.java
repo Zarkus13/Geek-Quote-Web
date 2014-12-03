@@ -9,7 +9,6 @@ import com.supinfo.geekquote.dao.QuoteDao;
 import com.supinfo.geekquote.models.Quote;
 import com.supinfo.geekquote.persistence.JpaDaoUtils;
 import java.util.List;
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 /**
