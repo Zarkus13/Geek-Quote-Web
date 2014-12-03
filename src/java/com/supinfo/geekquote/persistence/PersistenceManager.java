@@ -25,7 +25,7 @@ public class PersistenceManager {
             Map<String, Object> config = new HashMap<>();
             
             config.put("javax.persistence.jdbc.url", 
-                    envs.getProperty("MYSQL_ADDON_HOST", "jdbc:mysql://localhost:3306") 
+                    "jdbc:mysql://" + envs.getProperty("MYSQL_ADDON_HOST", "jdbc:mysql://localhost:3306") 
                         + "/" + envs.getProperty("MYSQL_ADDON_DB", "geekquote"));
             
             config.put("javax.persistence.jdbc.user", envs.getProperty("MYSQL_ADDON_USER", "java"));
